@@ -6,8 +6,8 @@ import sys
 
 from pathlib import Path
 
-from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QApplication
+#from PyQt6.QtGui import QIcon
+#from PyQt6.QtWidgets import QApplication
 
 from pwneye.config import BASE_DIR
 from pwneye.core.types import RtspAttempt, ViewerLaunchOptions, ViewerOnvifContext
@@ -54,37 +54,37 @@ def main(argv: list[str] | None = None) -> int:
     if len(argv) != 1:
         return 1
 
-    payload_path = Path(argv[0])
-    try:
-        attempts, onvif_context, launch_options = _load_payload(payload_path)
-    finally:
-        payload_path.unlink(missing_ok=True)
+    # payload_path = Path(argv[0])
+    # try:
+    #     attempts, onvif_context, launch_options = _load_payload(payload_path)
+    # finally:
+    #     payload_path.unlink(missing_ok=True)
 
-    os.environ.setdefault("QT_LOGGING_RULES", "*.ffmpeg.*=false;*.multimedia.*=false")
+    # os.environ.setdefault("QT_LOGGING_RULES", "*.ffmpeg.*=false;*.multimedia.*=false")
 
-    app = QApplication.instance()
-    owns_app = app is None
-    if app is None:
-        app = QApplication([])
-    app.setQuitOnLastWindowClosed(True)
-    app.lastWindowClosed.connect(app.quit)
-    app_icon = QIcon(str(APP_ICON_PATH)) if APP_ICON_PATH.exists() else None
-    if app_icon is not None:
-        app.setWindowIcon(app_icon)
+    # app = QApplication.instance()
+    # owns_app = app is None
+    # if app is None:
+    #     app = QApplication([])
+    # app.setQuitOnLastWindowClosed(True)
+    # app.lastWindowClosed.connect(app.quit)
+    # app_icon = QIcon(str(APP_ICON_PATH)) if APP_ICON_PATH.exists() else None
+    # if app_icon is not None:
+    #     app.setWindowIcon(app_icon)
 
-    viewer = MultiChannelViewer(
-        attempts,
-        onvif_context=onvif_context,
-        launch_options=launch_options,
-    )
-    if app_icon is not None:
-        viewer.setWindowIcon(app_icon)
-    viewer.show()
-    viewer.start()
+    # viewer = MultiChannelViewer(
+    #     attempts,
+    #     onvif_context=onvif_context,
+    #     launch_options=launch_options,
+    # )
+    # if app_icon is not None:
+    #     viewer.setWindowIcon(app_icon)
+    # viewer.show()
+    # viewer.start()
 
-    if owns_app:
-        exit_code = app.exec()
-        os._exit(exit_code)
+    # if owns_app:
+    #     exit_code = app.exec()
+    #     os._exit(exit_code)
     return 0
 
 
